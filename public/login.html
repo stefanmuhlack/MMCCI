@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login – SGBlock</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      background: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .login-box {
+      background: #222;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.4);
+      width: 300px;
+    }
+    h1 { margin-top: 0; }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      background: #333;
+      border: none;
+      border-radius: 5px;
+      color: white;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #4A90E2;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .error {
+      color: #f66;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <form class="login-box" method="POST" action="/login" onsubmit="return checkForm(event)">
+    <h1>SGBlock Login</h1>
+    <input type="text" name="username" id="username" placeholder="Benutzername" required>
+    <input type="password" name="password" id="password" placeholder="Passwort" required>
+    <button type="submit">Einloggen</button>
+    <div id="errorBox" class="error" style="display:none;">Login fehlgeschlagen</div>
+  </form>
+
+  <script>
+    async function checkForm(event) {
+      event.preventDefault();
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      const res = await fetch('/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+
+      if (res.redirected) {
+        window.location.href = res.url;
+      } else {
+        document.getElementById('errorBox').style.display = 'block';
+      }
+    }
+  </script>
+</body>
+</html>

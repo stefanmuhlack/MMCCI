@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>SGBlock Admin Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+  <script>
+  // Lade aktuelle Session
+  fetch('/api/session')
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById('coachName').textContent = data.user?.username || 'Coach';
+    });
+
+  // Beispielzahlen laden
+  document.getElementById("countProfiles").textContent = 12;
+  document.getElementById("countAnalysen").textContent = 8;
+  document.getElementById("countEintraege").textContent = 54;
+
+  const chart = new Chart(document.getElementById('chart'), {
+    type: 'line',
+    data: {
+      labels: ["Mo", "Di", "Mi"],
+      datasets: [{
+        label: "Selbstklärung",
+        data: [3, 6, 8],
+        borderColor: "#4FC3F7",
+        fill: false
+      }]
+    }
+  });
+</script>
+
+</head>
+<body class="dark-theme">
+  <aside class="sidebar">
+    <h2>☰ SGBlock</h2>
+    <nav>
+      <a href="/index.html">🏠 Dashboard</a>
+      <a href="/coachees.html">👤 Coachees</a>
+      <a href="/analyse.html">🧠 Analyse</a>
+      <a href="/verlauf.html">📈 Verlauf</a>
+      <a href="/admin.html">🔧 Admin</a>
+      <a href="/logout">🚪 Logout</a>
+    </nav>
+  </aside>
+
+  <main>
+    <h1>Willkommen, <span id='coachName'>Coach</span>!</h1>
+    <div class="content">
+      <!-- Inhalt folgt -->
+    </div>
+  </main>
+</body>
+</html>
